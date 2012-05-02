@@ -23,6 +23,11 @@ end
 parser.parse!(ARGV)
 
 def transform_yaml(yaml_path, &block)
+  unless File.exists?(yaml_path)
+    puts "Skipping #{yaml_path}"
+    return
+  end
+
   yaml_hash = YAML.load_file(yaml_path)
 
   yield(yaml_hash)
