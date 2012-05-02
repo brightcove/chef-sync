@@ -6,11 +6,13 @@ require 'chef-sync'
 
 options = {
   :stages => true,
-  :mongo => true
+  :mongo => true,
+  :target => Dir.pwd
 }
 parser = OptionParser.new do |opts|
   opts.banner = "USAGE: chef-sync [options]"
 
+  opts.on('-t', '--target [DIR]', "Target Directory (defaults to current)") {|v| options[:target] = v }
   opts.on('-s', '--[no-]stages', "Sync config/stages.yml") {|v| options[:stages] = v }
   opts.on('-m', '--[no-]mongo', "Sync config/mongo.yml") {|v| options[:mongo] = v }
   opts.on_tail("-h", "--help", "Show this message") do
@@ -28,8 +30,8 @@ def transform_yaml(yaml_path, &block)
   File.open(yaml_path,'w') {|f| YAML.dump(yaml_hash, f) }
 end
 
-def sync_stages
-  yaml_path = File.join(Dir.pwd, 'config', 'stages.yml')
+def sync_stages(base_dir)
+  yaml_path = File.join(base_dir, 'config', 'stages.yml')
   transform_yaml(yaml_path) do |stages_hash|
     synchronized_roles = {
       'rails_server'     => [:app, :web],
@@ -45,8 +47,8 @@ def sync_stages
   end
 end
 
-def sync_mongo
-  yaml_path = File.join(Dir.pwd, 'config', 'mongo.yml')
+def sync_mongo(base_dir)
+  yaml_path = File.join(base_dir, 'config', 'mongo.yml')
   transform_yaml(yaml_path) do |mongo_hash|
     puts "----------------------------------------------------------"
     puts "- Synchronizing config/mongo.yml w/ Chef Node Set"
@@ -57,5 +59,8 @@ def sync_mongo
   end
 end
 
-sync_stages if options[:stages]
-sync_mongo if options[:mongo]
+puts 'Target: '+options[:target]
+
+
+sync_stages(options[:target]) if options[:stages]
+sync_mongo(options[:target]) if options[:mongo]
