@@ -1,0 +1,61 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+require 'yaml'
+require 'chef-sync'
+
+options = {
+  :stages => true,
+  :mongo => true
+}
+parser = OptionParser.new do |opts|
+  opts.banner = "USAGE: chef-sync [options]"
+
+  opts.on('-s', '--[no-]stages', "Sync config/stages.yml") {|v| options[:stages] = v }
+  opts.on('-m', '--[no-]mongo', "Sync config/mongo.yml") {|v| options[:mongo] = v }
+  opts.on_tail("-h", "--help", "Show this message") do
+    puts opts
+    exit
+  end
+end
+parser.parse!(ARGV)
+
+def transform_yaml(yaml_path, &block)
+  yaml_hash = YAML.load_file(yaml_path)
+
+  yield(yaml_hash)
+
+  File.open(yaml_path,'w') {|f| YAML.dump(yaml_hash, f) }
+end
+
+def sync_stages
+  yaml_path = File.join(Dir.pwd, 'config', 'stages.yml')
+  transform_yaml(yaml_path) do |stages_hash|
+    synchronized_roles = {
+      'rails_server'     => [:app, :web],
+      'rails_utility'    => :resque
+    }
+
+    puts "----------------------------------------------------------"
+    puts "- Synchronizing Cap config/stages.yml w/ Chef Node Set"
+    puts "----------------------------------------------------------"
+    Chef::Sync::Utils.update_stages_from_chef(stages_hash, synchronized_roles) do |role, environment|
+      puts "- #{environment}/#{role} ..."
+    end
+  end
+end
+
+def sync_mongo
+  yaml_path = File.join(Dir.pwd, 'config', 'mongo.yml')
+  transform_yaml(yaml_path) do |mongo_hash|
+    puts "----------------------------------------------------------"
+    puts "- Synchronizing config/mongo.yml w/ Chef Node Set"
+    puts "----------------------------------------------------------"
+    Chef::Sync::Utils.update_mongo_from_chef(mongo_hash) do |environment|
+      puts "- #{environment}..."
+    end
+  end
+end
+
+sync_stages if options[:stages]
+sync_mongo if options[:mongo]

@@ -1,0 +1,14 @@
+--- 
+defaults: 
+  port: 27017
+test: 
+  port: 27017
+  hosts: 
+  - - test-host:27017
+  database: katama_test
+production: 
+  port: 27017
+  hosts: 
+  - - prod-existing-1.amazonaws.com:27017
+  - - prod-existing-2.amazonaws.com:27017
+  database: katama_production

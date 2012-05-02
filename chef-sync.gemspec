@@ -14,4 +14,10 @@ Gem::Specification.new do |gem|
   gem.name          = "chef-sync"
   gem.require_paths = ["lib"]
   gem.version       = Chef::Sync::VERSION
+
+  gem.add_runtime_dependency 'chef'
+
+  gem.add_development_dependency "rake"
+  gem.add_development_dependency "rspec"
+  gem.add_development_dependency "mocha"
 end

@@ -1,0 +1,15 @@
+--- 
+production: 
+  rails_env: production
+  roles:
+    app: &app ec2-107-22-89-198.compute-1.amazonaws.com 
+    web: *app
+    ios: 
+    - ios_hostname
+qa:
+  rails_env: qa
+  roles:
+    app: &app ec2-23-20-177-134.compute-1.amazonaws.com
+    web: *app
+    ios: 
+    - ios_hostname
