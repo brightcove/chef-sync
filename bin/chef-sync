@@ -10,7 +10,12 @@ options = {
   :target => Dir.pwd
 }
 parser = OptionParser.new do |opts|
-  opts.banner = "USAGE: chef-sync [options]"
+  opts.banner = <<EOL
+chef-sync is a utility to synchronize data from Chef node-sets into
+Capistrano multi-stage configuration, mongo server configuration, etc
+
+  Usage: chef-sync [options]
+EOL
 
   opts.on('-t', '--target [DIR]', "Target Directory (defaults to current)") {|v| options[:target] = v }
   opts.on('-s', '--[no-]stages', "Sync config/stages.yml") {|v| options[:stages] = v }
