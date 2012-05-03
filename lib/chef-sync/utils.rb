@@ -7,7 +7,7 @@ module Chef::Sync::Utils
 
   def self.public_hostnames_by_role(role, environment)
     results = JSON.parse(exec_knife_node_search(role, environment))
-    hostnames = Array(results['rows']).map {|node| node['ec2']['public_hostname'] }
+    hostnames = Array(results['rows']).map {|node| node['ec2.public_hostname'] }
     hostnames.sort
   end
 
@@ -38,7 +38,7 @@ module Chef::Sync::Utils
 
 private
   def self.exec_knife_node_search(role, environment)
-    `knife search node 'role:#{ role } AND chef_environment:#{ environment }' -a ec2 -Fj`
+    `knife search node 'role:#{ role } AND chef_environment:#{ environment }' -a ec2.public_hostname -Fj`
   end
 
   def self.exec_knife_node_list(environment)

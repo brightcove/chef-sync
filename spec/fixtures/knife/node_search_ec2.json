@@ -2,60 +2,12 @@
   "results": 2,
   "rows": [
     {
-      "ec2": {
-        "kernel_id": "aki-825ea7eb",
-        "public_ipv4": "107.22.89.198",
-        "reservation_id": "r-020ac561",
-        "public_keys_0_openssh_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCKUUG53xhavex/7g/mjlX8qnff6i+xtY+DiLzu1Z+OFu3SD6a3McGDt+vUp7RTTfnKLURMgHsxREomCMxAMrM6oksK+UU3sAD+8xOZRK2R+wQmcZg1aGPKZm6UteYxUSoyDK4RBw127FO63llrU/VBZZcsbxr3nZH3iIGvtL31M2KH4XC/p6YQ6urCIfARNuhAZKwMPtZCw0Y3fkCSzcViZ1LbMi2d1/kJYkVWY6bvV7IFkXAFhYyaFFlsD0ihk9jt/IOQUBLX0qzXSfQ72FvEqN7lGaw0B2c2C7+RBs1EE3ElgCT8ld+a0Sn+BWDwUaz7H7tN8+jRXPvmLtLSyUED katama-prod\n",
-        "local_ipv4": "10.242.67.15",
-        "local_hostname": "ip-10-242-67-15.ec2.internal",
-        "security_groups": [
-          "private_web"
-        ],
-        "hostname": "ip-10-242-67-15.ec2.internal",
-        "ami_id": "ami-4fa37426",
-        "placement_availability_zone": "us-east-1b",
-        "public_hostname": "ec2-107-22-89-198.compute-1.amazonaws.com",
-        "block_device_mapping_ami": "sda1",
-        "ami_launch_index": "0",
-        "ami_manifest_path": "ubuntu-us-east-1/images/ubuntu-oneiric-11.10-amd64-server-20120108.manifest.xml",
-        "instance_id": "i-d1da9ab5",
-        "userdata": null,
-        "profile": "default-paravirtual",
-        "instance_type": "m1.large",
-        "block_device_mapping_root": "/dev/sda1",
-        "block_device_mapping_ephemeral1": "sdc",
-        "block_device_mapping_ephemeral0": "sdb"
-      },
-      "id": "resque103.dav"
+      "ec2.public_hostname": "ec2-107-22-89-198.compute-1.amazonaws.com",
+      "id": "imagetranscode103.dav"
     },
     {
-      "ec2": {
-        "profile": "default-paravirtual",
-        "ami_id": "ami-4fa37426",
-        "local_ipv4": "10.46.214.63",
-        "local_hostname": "ip-10-46-214-63.ec2.internal",
-        "public_ipv4": "23.20.177.134",
-        "hostname": "ip-10-46-214-63.ec2.internal",
-        "userdata": null,
-        "security_groups": [
-          "private_web"
-        ],
-        "reservation_id": "r-d0f53ab3",
-        "ami_launch_index": "0",
-        "kernel_id": "aki-825ea7eb",
-        "block_device_mapping_ephemeral1": "sdc",
-        "placement_availability_zone": "us-east-1a",
-        "block_device_mapping_ephemeral0": "sdb",
-        "public_hostname": "ec2-23-20-177-134.compute-1.amazonaws.com",
-        "instance_id": "i-6fce8e0b",
-        "instance_type": "m1.large",
-        "ami_manifest_path": "ubuntu-us-east-1/images/ubuntu-oneiric-11.10-amd64-server-20120108.manifest.xml",
-        "public_keys_0_openssh_key": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCKUUG53xhavex/7g/mjlX8qnff6i+xtY+DiLzu1Z+OFu3SD6a3McGDt+vUp7RTTfnKLURMgHsxREomCMxAMrM6oksK+UU3sAD+8xOZRK2R+wQmcZg1aGPKZm6UteYxUSoyDK4RBw127FO63llrU/VBZZcsbxr3nZH3iIGvtL31M2KH4XC/p6YQ6urCIfARNuhAZKwMPtZCw0Y3fkCSzcViZ1LbMi2d1/kJYkVWY6bvV7IFkXAFhYyaFFlsD0ihk9jt/IOQUBLX0qzXSfQ72FvEqN7lGaw0B2c2C7+RBs1EE3ElgCT8ld+a0Sn+BWDwUaz7H7tN8+jRXPvmLtLSyUED katama-prod\n",
-        "block_device_mapping_root": "/dev/sda1",
-        "block_device_mapping_ami": "sda1"
-      },
-      "id": "resque102.dav"
+      "ec2.public_hostname": "ec2-23-20-177-134.compute-1.amazonaws.com",
+      "id": "qa-imagetranscode001.hud"
     }
   ]
 }
