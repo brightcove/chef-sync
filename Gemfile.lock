@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    chef-sync (0.0.1)
+    chef-sync (0.0.3)
       chef
 
 GEM
