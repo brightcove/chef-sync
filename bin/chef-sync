@@ -96,7 +96,7 @@ def generate_default_config(base_dir)
   puts "- Generating default config #{config_file}"
   puts "----------------------------------------------------------"
   %x{ mkdir -p #{File.dirname(config_file)} }
-  File.open(config_file, 'w') {|f| f.write( JSON.generate(DEFAULT_CONFIG) ) }
+  File.open(config_file, 'w') {|f| f.write( JSON.pretty_generate(DEFAULT_CONFIG) ) }
 end
 
 puts 'Target: '+options[:target]

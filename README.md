@@ -19,8 +19,8 @@ Or install it yourself as:
 
 ## Usage
 
-    $ > chef-sync
-    $ Target: ../katama_server
+    $> chef-sync
+    $ Target: /src/your_project
     $ ----------------------------------------------------------
     $ - Synchronizing Cap config/stages.yml w/ Chef Node Set
     $ ----------------------------------------------------------
@@ -36,6 +36,26 @@ Or install it yourself as:
     $ - qa...
     $ - staging...
     $ - production...
+
+## Custom Role Mapping
+You can customize the mapping of Chef to Capistrano roles by generating a
+per-project chef-sync config file.
+
+    $> chef-sync -i
+    Target: /src/your_project
+    ----------------------------------------------------------
+    - Generating default config /src/your_project/.chef-sync/config
+    ----------------------------------------------------------
+    $> cat /src/your_project/.chef-sync/config
+    {
+      "roles": {
+        "rails_server": [
+          "app",
+          "web"
+        ],
+        "rails_utility": "resque"
+      }
+    }
 
 ## Contributing
 
