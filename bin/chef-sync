@@ -4,6 +4,17 @@ require 'optparse'
 require 'yaml'
 require 'chef-sync'
 
+CONFIG_PATH = '.chef-sync/config'
+
+DEFAULT_ROLE_MAPPING = {
+  'rails_server'     => [:app, :web],
+  'rails_utility'    => :resque
+}
+
+DEFAULT_CONFIG = {
+ 'roles' => DEFAULT_ROLE_MAPPING
+}
+
 options = {
   :stages => true,
   :mongo => true,
@@ -18,6 +29,7 @@ Capistrano multi-stage configuration, mongo server configuration, etc
 EOL
 
   opts.on('-t', '--target [DIR]', "Target Directory (defaults to current)") {|v| options[:target] = v }
+  opts.on('-i', '--init', "Initialize Default Config in target DIR") {|v| options[:init_config] = v }
   opts.on('-s', '--[no-]stages', "Sync config/stages.yml") {|v| options[:stages] = v }
   opts.on('-m', '--[no-]mongo', "Sync config/mongo.yml") {|v| options[:mongo] = v }
   opts.on_tail("-h", "--help", "Show this message") do
@@ -43,10 +55,13 @@ end
 def sync_stages(base_dir)
   yaml_path = File.join(base_dir, 'config', 'stages.yml')
   transform_yaml(yaml_path) do |stages_hash|
-    synchronized_roles = {
-      'rails_server'     => [:app, :web],
-      'rails_utility'    => :resque
-    }
+
+    config_file = File.join(base_dir, CONFIG_PATH)
+    synchronized_roles = if File.exists?(config_file)
+      JSON.parse(File.read(config_file))['roles']
+    else
+      DEFAULT_ROLE_MAPPING
+    end
 
     puts "----------------------------------------------------------"
     puts "- Synchronizing Cap config/stages.yml w/ Chef Node Set"
@@ -69,8 +84,27 @@ def sync_mongo(base_dir)
   end
 end
 
+def generate_default_config(base_dir)
+  config_file = File.join(base_dir, CONFIG_PATH)
+  if File.exists?(config_file)
+    puts "WARNING: #{config_file} exists."
+    puts "Continue? (CTRL+C to quit)"
+    gets
+  end
+
+  puts "----------------------------------------------------------"
+  puts "- Generating default config #{config_file}"
+  puts "----------------------------------------------------------"
+  %x{ mkdir -p #{File.dirname(config_file)} }
+  File.open(config_file, 'w') {|f| f.write( JSON.generate(DEFAULT_CONFIG) ) }
+end
+
 puts 'Target: '+options[:target]
 
+if options[:init_config]
+  generate_default_config(options[:target])
+  exit
+end
 
 sync_stages(options[:target]) if options[:stages]
 sync_mongo(options[:target]) if options[:mongo]
